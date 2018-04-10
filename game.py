@@ -1,9 +1,41 @@
 from lib.alien import Alien
 from lib.city import City
-from lib.util import open_data_file, parse_connection
 import sys
 import argparse
+import random
 
+
+def open_data_file(file):
+    with open(file, 'r') as data_file:
+        cities = {}
+
+        cities_list = data_file.readlines()
+
+        for city in cities_list:
+            city_data = city.split()
+            city_name = city_data.pop(0)
+            cities[city_name] = city_data
+
+        return cities
+
+def parse_connection(connection):
+    conns = connection.split('=')
+
+    original_direction = conns.pop(0)
+    city = conns.pop()
+
+    direction = ''
+
+    if original_direction == 'north':
+        direction = 'N'
+    elif original_direction == 'south':
+        direction = 'S'
+    elif original_direction == 'west':
+        direction = 'W'
+    elif original_direction == 'east':
+        direction = 'E'
+
+    return direction, city
 
 def get_city_data(map_file):
     city_data = open_data_file(map_file)
@@ -23,7 +55,11 @@ def get_city_data(map_file):
 def get_aliens(num_aliens):
     return [Alien("a-{0}".format(str(x)), False, None) for x in xrange(num_aliens)]
 
-
+def assign_aliens(city_data, aliens):
+    for alien in aliens:
+        city_name, cityobj = random.choice(list(city_data.items()))
+        alien.move_city(cityobj)
+        cityobj.alien_entrance(alien)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -34,7 +70,10 @@ def main():
 
     city_data = get_city_data(args.map_file)
     aliens = get_aliens(args.aliens)
-    
+
+    #print city_data
+    assign_aliens(city_data, aliens)
+
 
 if __name__ == "__main__":
     sys.exit(main())
