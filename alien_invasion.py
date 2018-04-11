@@ -7,6 +7,17 @@ import random
 
 
 def open_data_file(file):
+    '''
+      params:
+        - file: string
+
+      description:
+        Takes a file location and opens the file for parsing then reads the cites into a dict
+
+      return:
+        dict
+
+    '''
     with open(file, 'r') as data_file:
         cities = {}
 
@@ -18,7 +29,20 @@ def open_data_file(file):
             cities[city_name] = city_data
         return cities
 
+
 def parse_connection(connection):
+    '''
+      params:
+        - connection: string
+
+      description:
+        takes a connection string and splits it and parses it into a standard direction
+
+      return:
+        direction: string
+        city: string
+
+    '''
     conns = connection.split('=')
 
     original_direction = conns.pop(0)
@@ -37,7 +61,19 @@ def parse_connection(connection):
 
     return direction, city
 
+
 def get_city_data(map_file):
+    '''
+      params:
+        - map_file: string
+
+      description:
+        Takes a file location and opens the file for parsing then reads the connections into a list.
+
+      return:
+        dict
+
+    '''
     city_data = open_data_file(map_file)
     city_dict = {}
     for city in city_data:
@@ -48,21 +84,40 @@ def get_city_data(map_file):
         for connection in connections:
             dir, neighbor = parse_connection(connection)
             neighbor_city = city_dict[neighbor]
-            #print(neighbor_city.__dict__)
+            # print(neighbor_city.__dict__)
             city_dict[city].add_neighbor(dir, neighbor_city)
 
     return city_dict
 
+
 def get_aliens(num_aliens):
-    return [Alien("a-{0}".format(str(x)), False, None) for x in range(num_aliens)]
+    return [Alien("a-{0}".format(str(x)), False, None)
+            for x in range(num_aliens)]
+
 
 def assign_aliens(city_data, aliens):
+    '''
+      params:
+        - citydata: dict
+        - aliens: list
+
+      description:
+        Takes a dictionary of city data and assigns aliens to the city.
+
+      return:
+        None
+
+    '''
     for alien in aliens:
         city_name, cityobj = random.choice(list(city_data.items()))
         alien.move_city(cityobj)
         cityobj.alien_entrance(alien)
 
+
 def main():
+    '''
+       Main Function
+    '''
     parser = argparse.ArgumentParser()
     parser.add_argument("aliens", type=int, help="Number of Aliens to create")
     parser.add_argument("map_file", help="filename of test data")
