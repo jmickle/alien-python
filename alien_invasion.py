@@ -1,5 +1,6 @@
 from lib.alien import Alien
 from lib.city import City
+from lib.game import start_game
 import sys
 import argparse
 import random
@@ -53,7 +54,7 @@ def get_city_data(map_file):
     return city_dict
 
 def get_aliens(num_aliens):
-    return [Alien("a-{0}".format(str(x)), False, None) for x in xrange(num_aliens)]
+    return [Alien("a-{0}".format(str(x)), False, None) for x in range(num_aliens)]
 
 def assign_aliens(city_data, aliens):
     for alien in aliens:
@@ -73,6 +74,8 @@ def main():
 
     #print city_data
     assign_aliens(city_data, aliens)
+
+    start_game(city_data, aliens)
 
 
 if __name__ == "__main__":
