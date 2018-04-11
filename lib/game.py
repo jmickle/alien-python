@@ -17,8 +17,10 @@ def start_game(city_data, aliens):
                 for alien in city.aliens:
                     if alien.alive and not alien.trapped:
                         tmp = False
+                        test = alien.travel_list()
+                        #print(alien.travel_list())
                         for location in alien.travel_list():
-                            if city.can_travel(location):
+                            if city.travel_spots(location):
                                 new_location = city.get_neighbor(location)
                                 alien.move_city(location)
                                 city.alien_exit(alien)
@@ -30,6 +32,7 @@ def start_game(city_data, aliens):
 
                         if tmp:
                             alien.trapped = True
+
         for city_name, city in city_data.items():
             if not city.destroyed and len(city.aliens) > 1:
                 for alien in city.aliens:
@@ -37,6 +40,7 @@ def start_game(city_data, aliens):
 
                 dead_aliens = city.get_aliens()
                 print("{0} aliens died in a stand off, {1} was destroyed!".format(dead_aliens, city.name))
+
     for city_name, city in city_data.items():
         if not city.destroyed:
             print(city.get_city_info())

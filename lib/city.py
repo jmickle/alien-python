@@ -35,6 +35,7 @@ class City():
         elif direction == 'W':
             neighbor = self.west
 
+        #print(neighbor)
         if neighbor and not neighbor.destroyed:
             return True
         else:
@@ -66,14 +67,14 @@ class City():
     def get_city_info(self):
         city_sum = self.name
 
-        if(self.can_travel('N')):
+        if(self.travel_spots('N')):
             city_sum += " north={0}".format(self.north.name)
 
-        if(self.can_travel('S')):
+        if(self.travel_spots('S')):
             city_sum += " south={0}".format(self.south.name)
-        if(self.can_travel('E')):
+        if(self.travel_spots('E')):
             city_sum += " east={0}".format(self.east.name)
-        if(self.can_travel('W')):
+        if(self.travel_spots('W')):
             city_sum += " west={0}".format(self.west.name)
 
         return city_sum

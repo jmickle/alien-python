@@ -16,7 +16,6 @@ def open_data_file(file):
             city_data = city.split()
             city_name = city_data.pop(0)
             cities[city_name] = city_data
-
         return cities
 
 def parse_connection(connection):
@@ -49,7 +48,8 @@ def get_city_data(map_file):
         for connection in connections:
             dir, neighbor = parse_connection(connection)
             neighbor_city = city_dict[neighbor]
-            city_dict[city].add_neighbor(dir, neighbor)
+            #print(neighbor_city.__dict__)
+            city_dict[city].add_neighbor(dir, neighbor_city)
 
     return city_dict
 

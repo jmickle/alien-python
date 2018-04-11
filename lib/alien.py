@@ -9,7 +9,9 @@ class Alien:
         self.current_city = current_city
 
     def travel_list(self):
-        return random.shuffle(['N','S','E','W'])
+        list = ['N','S','E','W']
+        random.shuffle(list)
+        return list
 
     def die(self):
         self.alive = False
@@ -17,4 +19,3 @@ class Alien:
     def move_city(self, new_city):
         self.current_city = new_city
         self.steps += 1
-        
